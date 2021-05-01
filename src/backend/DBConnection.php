@@ -50,4 +50,42 @@ class DBConnection
         $user = $stmt->fetchAll();
         return $user;
     }
+
+
+    public function deleteUsuario($id)
+    {
+        try {
+            $pdo = $this->returnConnection();
+            $stmt = $pdo->prepare('DELETE FROM usuario WHERE id = :id');
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            echo "sucess";
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+
+    public function selectUsuarioByID($id)
+    {
+        $pdo = $this->returnConnection();
+        $stmt = $pdo->query("SELECT * FROM usuario WHERE id =" . $id);
+        $user = $stmt->fetch();
+        return $user;
+    }
+
+    public function updateUsuario($id, $nome, $idade)
+    {
+        try {
+            $pdo = $this->returnConnection();
+            $stmt = $pdo->prepare('UPDATE usuario SET nome = :nome, idade = :idade WHERE id = :id');
+            $stmt->execute(array(
+                ':id'   => $id,
+                ':nome' => $nome,
+                ':idade' => $idade
+            ));
+            return "sucess";
+        } catch (PDOException $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
 }
