@@ -1,11 +1,15 @@
 <template>
   <div class="container">
     <div>
-      <b-button id="show-btn" @click="showModal" class="mt-5 mb-5"
+      <b-button
+        id="show-btn"
+        @click="showModal"
+        v-on:click.prevent="editFalse"
+        class="mt-5 mb-5"
         >Cadastrar Usuário</b-button
       >
 
-      <b-modal ref="my-modal" hide-footer   title="Cadastro de Usuário">
+      <b-modal ref="my-modal" hide-footer title="Cadastro de Usuário">
         <div class="d-block text-center">
           <form action="post">
             <div class="form-group">
@@ -55,7 +59,12 @@
           v-on:click.prevent="editarUsuario(id, nome, idade)"
           >Editar</b-button
         >
-        <b-button class="mt-3" variant="outline-danger" block @click="hideModal"
+        <b-button
+          class="mt-3"
+          v-on:click.prevent="cancelarCadastro"
+          variant="outline-danger"
+          block
+          @click="hideModal"
           >Cancelar</b-button
         >
       </b-modal>
@@ -127,9 +136,6 @@ export default {
         })
           .then((res) => {
             console.log(res);
-            this.id = "";
-            this.nome = "";
-            this.idade = "";
             this.getUsuarios();
             this.hideModal();
           })
@@ -138,9 +144,6 @@ export default {
           });
       } else {
         alert("Por favor, preencha todos os dados de cadastro");
-        this.id = "";
-        this.nome = "";
-        this.idade = "";
         this.hideModal();
       }
     },
@@ -235,6 +238,18 @@ export default {
     hideModal() {
       this.edit = false;
       this.$refs["my-modal"].hide();
+    },
+    editTrue() {
+      this.edit = true;
+    },
+    editFalse() {
+      this.edit = false;
+    },
+    cancelarCadastro() {
+      this.id = "";
+      this.nome = "";
+      this.idade = "";
+      this.editFalse();
     },
   },
 
