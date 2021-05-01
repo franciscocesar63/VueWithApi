@@ -14,11 +14,11 @@ class DBConnection
         try {
             $this->_con = new PDO("mysql:host=$this->_dbHostname;dbname=$this->_dbName", $this->_dbUsername, $this->_dbPassword);
             $this->_con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Conectado com sucesso.";
+            // echo "Conectado com sucesso.";
         } catch (PDOException $e) {
             echo "<h1>Ops, algo deu errado: " . $e->getMessage() . "</h1>";
-            echo "<pre>";
-            echo print_r($e);
+            // echo "<pre>";
+            // echo print_r($e);
         }
     }
     // return Connection
@@ -41,5 +41,13 @@ class DBConnection
         } else {
             return 'error';
         }
+    }
+
+    public function selectUsuarios()
+    {
+        $pdo = $this->returnConnection();
+        $stmt = $pdo->query("SELECT * FROM usuario");
+        $user = $stmt->fetchAll();
+        return $user;
     }
 }
